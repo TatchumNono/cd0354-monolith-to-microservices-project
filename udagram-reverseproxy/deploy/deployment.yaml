@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: reverseproxy
+  name: reverseproxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: reverseproxy
+  template:
+    metadata:
+      labels:
+        service: reverseproxy
+        app.kubernetes.io/name: reverseproxy
+    spec:
+      containers:
+        - image: tatchumnono/reverseproxy
+          name: reverseproxy
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "1000Mi"
+            limits:
+              cpu: 512m
+              memory: "2000Mi"
+      restartPolicy: Always
